@@ -1,5 +1,6 @@
 import os
 import csv
+import pandas as pd
 import sys
 
 data_dir = 'data'
@@ -17,6 +18,8 @@ else:
     print('Error: File not found')
     sys.exit(1)
 
+print()
+
 # Task 2
 with open(filepath, mode='r', encoding='utf-8') as csv_file:
 
@@ -33,5 +36,41 @@ with open(filepath, mode='r', encoding='utf-8') as csv_file:
         ctr_reader += 1
 
     print(f"Total students: {ctr_reader}")
+
+print()
+
+# Task 3
+# 3a: Load
+df = pd.read_csv(filepath)
+
+print(df.head())
+print("Shape:" , df.shape)
+print(df.dtypes)
+
+# 3b: Statistics
+print(df.describe())
+
+print()
+# 3c: Add average column
+df['average_score'] = df[['math_score', 'python_score', 'english_score']].mean(axis=1).round(2)
+print(df[['name', 'group', 'average_score']])
+
+print()
+# 3d: Filtering
+high_scorers = df[ df['average_score'] >= 75  ]
+group_101 = df[ df['group'] == 'SE-101'  ]
+
+print(high_scorers)
+print(group_101)
+
+print()
+
+# 3e: Group analysis
+group_means = df.groupby('group')[['math_score','python_score','english_score']].mean()
+gender_means = df.groupby('gender')['average_score'].mean()
+print(group_means)
+print(gender_means)
+
+
 
 
