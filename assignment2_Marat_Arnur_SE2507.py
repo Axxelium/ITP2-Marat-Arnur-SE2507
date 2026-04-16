@@ -18,3 +18,20 @@ else:
     sys.exit(1)
 
 # Task 2
+with open(filepath, mode='r', encoding='utf-8') as csv_file:
+
+    reader = csv.DictReader(csv_file)
+
+    print(f"Fields: {reader.fieldnames}")
+
+    ctr_reader = 0
+    for row in reader:
+
+        if ctr_reader < 5:
+            print(f"Row {ctr_reader + 1}: {row}")
+
+        ctr_reader += 1
+
+    print(f"Total students: {ctr_reader}")
+
+
