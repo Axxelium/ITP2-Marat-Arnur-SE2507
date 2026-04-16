@@ -1,7 +1,10 @@
 import os
 import csv
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 import sys
+
 
 data_dir = 'data'
 
@@ -72,5 +75,44 @@ print(group_means)
 print(gender_means)
 
 
+# Task 4
 
+# Plot 1: Bar chart
+group_avg = df.groupby('group')['average_score'].mean()
+plt.figure(figsize=(8, 5))
+plt.bar( group_avg.index, group_avg.values , color=['#3498DB','#E74C3C','#2ECC71'])
+plt.title('Average Score by Study Group')
+plt.xlabel('Study Group')
+plt.ylabel('Average Score')
+plt.savefig(os.path.join(data_dir, 'bar_group_avg.png'), dpi=150,
+bbox_inches='tight')
+plt.show()
+
+# Plot 2: Histogram
+group_python = df['python_score']
+plt.figure(figsize=(8, 5))
+plt.hist(group_python, bins=10, color='#9B59B6', edgecolor='white')
+plt.title('Distribution of Python Scores')
+plt.xlabel('Python Score')
+plt.ylabel('Number of Students')
+plt.savefig(os.path.join(data_dir, 'hist_python_scores.png'), dpi=150,
+bbox_inches='tight')
+plt.show()
+
+# Plot 3: Box plot
+plt.figure(figsize=(8, 5))
+sns.boxplot(data=df, x='gender', y='average_score', palette='Set2')
+plt.title('Score Distribution by Gender')
+plt.savefig(os.path.join(data_dir, 'box_gender_scores.png'), dpi=150,
+bbox_inches='tight')
+plt.show()
+
+# Plot 4: Heatmap
+plt.figure(figsize=(8, 6))
+corr = df[['math_score','python_score','english_score','average_score']].corr()
+sns.heatmap(corr, annot=True, cmap='Blues', fmt='.2f')
+plt.title('Correlation Matrix of Student Scores')
+plt.savefig(os.path.join(data_dir, 'heatmap_correlation.png'), dpi=150,
+bbox_inches='tight')
+plt.show()
 
